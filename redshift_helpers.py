@@ -7,6 +7,12 @@ import os
 import psycopg2
 
 
+REDSHIFT_ENDPOINT=os.getenv("REDSHIFT_ENDPOINT")
+PORT=os.getenv("PORT")
+REDSHIFT_USER=os.getenv("REDSHIFT_USER")
+REDSHIFT_PASS=os.getenv("REDSHIFT_PASS")
+
+
 class Redshift(object):
     """
     -----------
@@ -16,15 +22,23 @@ class Redshift(object):
     associated with LeafLink. The sql engine and table name objects can be
     accessed once the class has been initialized. These objects are named
     'engine' and 'tables', respectively.
+    -----------
+    ARGS
+    -----------
+    DBNAME (str): database name. no default value.
+    REDSHIFT_ENDPOINT (str): AWS cluster endpoint name.
+    PORT (int): AWS cluster port number.
+    REDSHIFT_USER (str): AWS username.
+    REDSHIFT_PASS (str): AWS password.
     """
 
     def __init__(
         self,
         DBNAME,
-        REDSHIFT_ENDPOINT=os.getenv("REDSHIFT_ENDPOINT"),
-        PORT=os.getenv("PORT"),
-        REDSHIFT_USER=os.getenv("REDSHIFT_USER"),
-        REDSHIFT_PASS=os.getenv("REDSHIFT_PASS")
+        REDSHIFT_ENDPOINT=REDSHIFT_ENDPOINT,
+        PORT=PORT,
+        REDSHIFT_USER=REDSHIFT_USER,
+        REDSHIFT_PASS=REDSHIFT_PASS
     ):
         self.REDSHIFT_ENDPOINT = REDSHIFT_ENDPOINT
         self.REDSHIFT_USER = REDSHIFT_USER
