@@ -3,7 +3,7 @@
 Hello!
 
 
-stalelettuce is a package that was designed for exploring LeafLink's Redshift clusters from a Jupyter notebook quickly and easily with minimal code.
+stalelettuce is a package that was originally designed for exploring LeafLink's Redshift clusters from a Jupyter notebook quickly and easily with minimal code.
 
 
 To access Redshift with stalelettuce, you have two options when initializing the Redshift object:
@@ -26,7 +26,7 @@ If option number two above appeals to you then you will need to update .bashrc w
 `export REDSHIFT_PASS=<your Redshift password>`</br>
 
 
-Note: if you need to update your shell to bash, use the following command: exec bash. Additionally, you can update your preferences under "Shell opens with" by going to "Preferences" from the terminal menu. Lastly, to find the relevant AWS credentials, check 1password. To find the endpoint and port number, go to the AWS Console.
+Note: if you need to update your shell to bash, use the following command: `exec bash`. Similarly, you can use `source ~/.bashrc`. Additionally, you can update your shell preferences under "Shell opens with" by going to "Preferences" from the terminal menu. Lastly, to find the relevant AWS credentials, check 1password. To find the endpoint and port number, go to the AWS Console.
 
 
 If you would like to see additional utilities added to stalelettuce then feel free to reach out to Mike Letts on Slack! Don't worry if your idea relates to a service other than Redshift. The whole point of stalelettuce is to make data analysis faster and easier, so all ideas are welcome!
