@@ -14,7 +14,10 @@ To access Redshift with stalelettuce, you have two options when initializing the
   2.) Store this information in environment variables on your machine locally.
 
 
-Note: Either way, you'll need to provide the name of the database that you would like to access. 
+Note: You'll need to provide the name of the database that you would like to access.
+
+
+My recommendation is to use option number two. Why go to the trouble of entering login credentials every time you spin-up a new Jupyter notebook . . . ? 
 
 
 If option number two above appeals to you then you will need to update .bashrc with the following information:
