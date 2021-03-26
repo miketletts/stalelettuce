@@ -1,8 +1,8 @@
 #!/usr/bin/env python3.8
 
+from pandas import DataFrame, read_sql_query
 from sqlalchemy import create_engine
 from sqlalchemy import text
-from pandas import DataFrame, read_sql_query
 import os
 import psycopg2
 
