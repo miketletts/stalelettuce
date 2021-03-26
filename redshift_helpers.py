@@ -3,6 +3,7 @@
 from sqlalchemy import create_engine
 from sqlalchemy import text
 from pandas import read_sql_query
+import os
 import psycopg2
 
 
@@ -16,13 +17,14 @@ class Redshift(object):
     accessed once the class has been initialized. These objects are named
     'engine' and 'tables', respectively.
     """
+
     def __init__(
         self,
-        REDSHIFT_ENDPOINT,
         DBNAME,
-        PORT,
-        REDSHIFT_USER,
-        REDSHIFT_PASS
+        REDSHIFT_ENDPOINT=os.getenv("REDSHIFT_ENDPOINT"),
+        PORT=os.getenv("PORT"),
+        REDSHIFT_USER=os.getenv("REDSHIFT_USER"),
+        REDSHIFT_PASS=os.getenv("REDSHIFT_PASS")
     ):
         self.REDSHIFT_ENDPOINT = REDSHIFT_ENDPOINT
         self.REDSHIFT_USER = REDSHIFT_USER
@@ -30,16 +32,14 @@ class Redshift(object):
         self.PORT = PORT
         self.DBNAME = DBNAME
         self.engine = self.createEngine()
-        self.tables =  self.dbTableNames()
-
+        self.tables = self.dbTableNames()
 
     def createEngine(self):
         engine_string = \
-        f"postgresql+psycopg2://{self.REDSHIFT_USER}:{self.REDSHIFT_PASS}@{self.REDSHIFT_ENDPOINT}:{self.PORT}/{self.DBNAME}"
+            f"postgresql+psycopg2://{self.REDSHIFT_USER}:{self.REDSHIFT_PASS}@{self.REDSHIFT_ENDPOINT}:{self.PORT}/{self.DBNAME}"
         engine = create_engine(engine_string)
         print(f"Successfully created engine via {engine_string}")
         return engine
-
 
     def dbTableNames(self):
         sql = """
@@ -54,15 +54,12 @@ class Redshift(object):
         ]
         return tables
 
-
     def printDbTableNames(self):
         print(*self.tables, sep="\n")
-
 
     def dbTableNamesDataFrame(self):
         df = pd.DataFrame(self.tables)
         return df
-
 
     def query(self, sql):
         """
