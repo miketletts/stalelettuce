@@ -90,7 +90,7 @@ class Redshift(object):
         import stalelettuce as sl
 
 
-        rs = sl.Redshift()
+        rs = sl.Redshift(DBNAME="db_name")
         sql = '''select schemaname from pg_tables'''
         df = rs.query(sql)
         """
