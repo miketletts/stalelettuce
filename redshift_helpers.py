@@ -2,7 +2,7 @@
 
 from sqlalchemy import create_engine
 from sqlalchemy import text
-from pandas import read_sql_query
+from pandas import DataFrame, read_sql_query
 import os
 import psycopg2
 
@@ -72,7 +72,7 @@ class Redshift(object):
         print(*self.tables, sep="\n")
 
     def dbTableNamesDataFrame(self):
-        df = pd.DataFrame(self.tables)
+        df = DataFrame(self.tables)
         return df
 
     def query(self, sql):
@@ -94,5 +94,5 @@ class Redshift(object):
         sql = '''select schemaname from pg_tables'''
         df = rs.query(sql)
         """
-        df = pd.read_sql_query(text(sql), self.engine)
+        df = read_sql_query(text(sql), self.engine)
         return df
