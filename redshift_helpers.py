@@ -7,10 +7,10 @@ import os
 import psycopg2
 
 
-REDSHIFT_ENDPOINT=os.getenv("REDSHIFT_ENDPOINT")
-PORT=os.getenv("PORT")
-REDSHIFT_USER=os.getenv("REDSHIFT_USER")
-REDSHIFT_PASS=os.getenv("REDSHIFT_PASS")
+REDSHIFT_ENDPOINT = os.environ.get("REDSHIFT_ENDPOINT")
+PORT = os.environ.get("PORT")
+REDSHIFT_USER = os.environ.get("REDSHIFT_USER")
+REDSHIFT_PASSWORD = os.environ.get("REDSHIFT_PASSWORD")
 
 
 class Redshift(object):
@@ -38,11 +38,11 @@ class Redshift(object):
         REDSHIFT_ENDPOINT=REDSHIFT_ENDPOINT,
         PORT=PORT,
         REDSHIFT_USER=REDSHIFT_USER,
-        REDSHIFT_PASS=REDSHIFT_PASS
+        REDSHIFT_PASSWORD=REDSHIFT_PASSWORD
     ):
         self.REDSHIFT_ENDPOINT = REDSHIFT_ENDPOINT
         self.REDSHIFT_USER = REDSHIFT_USER
-        self.REDSHIFT_PASS = REDSHIFT_PASS
+        self.REDSHIFT_PASSWORD = REDSHIFT_PASSWORD
         self.PORT = PORT
         self.DBNAME = DBNAME
         self.engine = self.createEngine()
