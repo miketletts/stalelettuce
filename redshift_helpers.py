@@ -1,8 +1,7 @@
 #!/usr/bin/env python3.8
 
-from sqlalchemy import create_engine
-from sqlalchemy import text
 from pandas import DataFrame, read_sql_query
+from sqlalchemy import create_engine, text
 import os
 import psycopg2
 
@@ -85,12 +84,16 @@ class Redshift(object):
         To use this function, just enter a valid query in a docstring.
         Then, pass this docstring to the function as an arg (i.e. sql).
         -----------
+        ARGS:
+        -----------
+        sql (docstring): query.
+        -----------
         EXAMPLE:
         -----------
         import stalelettuce as sl
 
 
-        rs = sl.Redshift()
+        rs = sl.Redshift(DBNAME="db_name")
         sql = '''select schemaname from pg_tables'''
         df = rs.query(sql)
         """
