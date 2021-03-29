@@ -49,7 +49,7 @@ class Redshift(object):
 
     def createEngine(self):
         engine_string = \
-            f"postgresql+psycopg2://{self.REDSHIFT_USER}:{self.REDSHIFT_PASS}@{self.REDSHIFT_ENDPOINT}:{self.PORT}/{self.DBNAME}"
+            f"postgresql+psycopg2://{self.REDSHIFT_USER}:{self.REDSHIFT_PASSWORD}@{self.REDSHIFT_ENDPOINT}:{self.PORT}/{self.DBNAME}"
         engine = create_engine(engine_string)
         print(f"Successfully created engine via {engine_string}")
         return engine
