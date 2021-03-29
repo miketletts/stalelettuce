@@ -1,8 +1,7 @@
 #!/usr/bin/env python3.8
 
 from pandas import DataFrame, read_sql_query
-from sqlalchemy import create_engine
-from sqlalchemy import text
+from sqlalchemy import create_engine, text
 import os
 import psycopg2
 
@@ -84,6 +83,10 @@ class Redshift(object):
         The results are returned as a pandas dataframe for your convenience.
         To use this function, just enter a valid query in a docstring.
         Then, pass this docstring to the function as an arg (i.e. sql).
+        -----------
+        ARGS:
+        -----------
+        sql (docstring): query.
         -----------
         EXAMPLE:
         -----------
