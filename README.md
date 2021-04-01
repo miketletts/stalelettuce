@@ -2,7 +2,7 @@
 
 ## Description
 
-stalelettuce is a package that was originally designed for exploring LeafLink's Redshift clusters from a Jupyter notebook quickly and easily with minimal code.
+stalelettuce is for exploring LeafLink's Redshift clusters from a Jupyter notebook quickly and easily with minimal code.
 
 
 ## Credentials
