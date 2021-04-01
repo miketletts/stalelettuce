@@ -89,7 +89,7 @@ class Redshift(object):
         """
         return self.query(sql=sql)
 
-    def tables(self):
+    def tables(self, schema_name=None):
         """
         -----------
         DESCRIPTION:
@@ -104,6 +104,15 @@ class Redshift(object):
             from information_schema.tables t
             order by 1, 2;
         """
+        if schema_name is not None:
+            sql = f"""
+                select
+                    t.table_schema,
+                    t.table_name
+                from information_schema.tables t
+                where t.table_schema = '{schema_name}'
+                order by 1, 2;
+            """
         return self.query(sql=sql)
 
     def columns(self, schema_name, table_name):
