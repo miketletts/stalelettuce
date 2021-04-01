@@ -95,8 +95,7 @@ class Redshift(object):
         sql = '''select distinct schemaname from pg_tables'''
         df = rs.query(sql)
         """
-        df = read_sql_query(text(sql), self.engine)
-        return df
+        return read_sql_query(text(sql), self.engine)
 
     def columns(self, schema_name, table_name):
         """
