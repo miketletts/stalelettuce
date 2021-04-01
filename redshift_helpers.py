@@ -6,12 +6,6 @@ import os
 import psycopg2
 
 
-REDSHIFT_ENDPOINT = os.environ.get("REDSHIFT_ENDPOINT")
-PORT = os.environ.get("PORT")
-REDSHIFT_USER = os.environ.get("REDSHIFT_USER")
-REDSHIFT_PASSWORD = os.environ.get("REDSHIFT_PASSWORD")
-
-
 class Redshift(object):
     """
     -----------
@@ -51,10 +45,10 @@ class Redshift(object):
     def __init__(
         self,
         dbname,
-        host=REDSHIFT_ENDPOINT,
-        port=PORT,
-        username=REDSHIFT_USER,
-        password=REDSHIFT_PASSWORD
+        host=os.environ.get("REDSHIFT_ENDPOINT"),
+        port=os.environ.get("PORT"),
+        username=os.environ.get("REDSHIFT_USER"),
+        password=os.environ.get("REDSHIFT_PASSWORD")
     ):
         self.host = host
         self.username = username
