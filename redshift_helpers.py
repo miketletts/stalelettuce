@@ -68,9 +68,8 @@ class Redshift(object):
     def createEngine(self):
         engine_string = \
             f"postgresql+psycopg2://{self.username}:{self.password}@{self.host}:{self.port}/{self.dbname}"
-        engine = create_engine(engine_string)
         print(f"Successfully created engine via {engine_string}")
-        return engine
+        return create_engine(engine_string)
 
     def query(self, sql):
         """
