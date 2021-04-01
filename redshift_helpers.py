@@ -1,5 +1,6 @@
 #!/usr/bin/env python3.8
 
+from itertools import groupby
 from pandas import DataFrame, read_sql_query
 from sqlalchemy import create_engine, text
 import os
@@ -18,38 +19,39 @@ class Redshift(object):
     DESCRIPTION
     -----------
     Use this class to explore a specific database in a Redshift cluster
-    associated with LeafLink. The sql engine and table name objects can be
-    accessed once the class has been initialized. These objects are named
-    'engine' and 'tables', respectively.
+    associated with LeafLink. The sql engine, schema, and table name objects can
+    be accessed once the class has been initialized. These objects are named
+    'engine', 'schemas', and 'tables', respectively.
     -----------
     ARGS
     -----------
-    DBNAME (str): database name. no default value.
-    REDSHIFT_ENDPOINT (str): AWS cluster endpoint name.
-    PORT (int): AWS cluster port number.
-    REDSHIFT_USER (str): AWS username.
-    REDSHIFT_PASS (str): AWS password.
+    dbname (str): database name. no default value.
+    host (str): AWS cluster endpoint name.
+    port (int): AWS cluster port number.
+    username (str): AWS username.
+    password (str): AWS password.
     """
 
     def __init__(
         self,
-        DBNAME,
-        REDSHIFT_ENDPOINT=REDSHIFT_ENDPOINT,
-        PORT=PORT,
-        REDSHIFT_USER=REDSHIFT_USER,
-        REDSHIFT_PASSWORD=REDSHIFT_PASSWORD
+        dbname,
+        host=REDSHIFT_ENDPOINT,
+        port=PORT,
+        username=REDSHIFT_USER,
+        password=REDSHIFT_PASSWORD
     ):
-        self.REDSHIFT_ENDPOINT = REDSHIFT_ENDPOINT
-        self.REDSHIFT_USER = REDSHIFT_USER
-        self.REDSHIFT_PASSWORD = REDSHIFT_PASSWORD
-        self.PORT = PORT
-        self.DBNAME = DBNAME
+        self.host = host
+        self.username = username
+        self.password = password
+        self.port = port
+        self.dbname = dbname
         self.engine = self.createEngine()
         self.tables = self.dbTableNames()
+        self.schemas = {key: len(list(group)) for key, group in self.tables.items()}
 
     def createEngine(self):
         engine_string = \
-            f"postgresql+psycopg2://{self.REDSHIFT_USER}:{self.REDSHIFT_PASSWORD}@{self.REDSHIFT_ENDPOINT}:{self.PORT}/{self.DBNAME}"
+            f"postgresql+psycopg2://{self.username}:{self.password}@{self.host}:{self.port}/{self.dbname}"
         engine = create_engine(engine_string)
         print(f"Successfully created engine via {engine_string}")
         return engine
@@ -62,17 +64,14 @@ class Redshift(object):
         from pg_tables
         order by 1, 2
         """
-        tables = [
-            {"dataset": __[0], "table": __[1]} for __ in self.engine.execute(sql)
-        ]
+        tables = {}
+        for dataset, table in self.engine.execute(sql):
+            try:
+                tables[dataset].append(table)
+            except KeyError:
+                tables[dataset] = [table]
+
         return tables
-
-    def printDbTableNames(self):
-        print(*self.tables, sep="\n")
-
-    def dbTableNamesDataFrame(self):
-        df = DataFrame(self.tables)
-        return df
 
     def query(self, sql):
         """
@@ -93,8 +92,8 @@ class Redshift(object):
         import stalelettuce as sl
 
 
-        rs = sl.Redshift(DBNAME="db_name")
-        sql = '''select schemaname from pg_tables'''
+        rs = sl.Redshift(dbname="db_name")
+        sql = '''select distinct schemaname from pg_tables'''
         df = rs.query(sql)
         """
         df = read_sql_query(text(sql), self.engine)
