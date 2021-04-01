@@ -1,10 +1,11 @@
 # stalelettuce
 
-Hello!
-
+## Description
 
 stalelettuce is a package that was originally designed for exploring LeafLink's Redshift clusters from a Jupyter notebook quickly and easily with minimal code.
 
+
+## Credentials
 
 To access Redshift with stalelettuce, you have two options when initializing the Redshift object:
 
@@ -28,7 +29,8 @@ If option number two above appeals to you then you will need to update .bashrc w
 
 Note: if you need to update your shell to bash, use the following command: `exec bash`. Similarly, you can use `source ~/.bashrc`. Additionally, you can update your shell preferences under "Shell opens with" by going to "Preferences" from the terminal menu. Lastly, to find the relevant AWS credentials, check 1password. To find the endpoint and port number, go to the AWS Console.
 
-Below are some use cases for stalelettuce:
+
+## Use
 
 ```
 # importing stalelettuce; aliasing as 'sl'
@@ -56,5 +58,8 @@ rs.columns(schema_name="llf_reporting", table_name="transaction_all")
 sql = """select count(distinct ta.seller_id) num_sellers from llf_reporting.transaction_all ta"""
 rs.query(sql=sql)
 ```
+
+
+## Contributions
 
 If you would like to see additional utilities added to stalelettuce then feel free to reach out to Mike Letts on Slack! Don't worry if your idea relates to a service other than Redshift. The whole point of stalelettuce is to make data analysis at LeafLink faster and easier, so all ideas are welcome!
