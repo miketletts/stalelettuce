@@ -1,9 +1,12 @@
 #!/usr/bin/env python3.8
 
-from pandas import DataFrame, read_sql_query
+from pandas import DataFrame, options, read_sql_query
 from sqlalchemy import create_engine, text
 import os
 import psycopg2
+
+
+options.display.max_columns = None
 
 
 class Redshift(object):
