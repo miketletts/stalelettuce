@@ -6,9 +6,6 @@ import os
 import psycopg2
 
 
-options.display.max_columns = None
-
-
 class Redshift(object):
     """
     -----------
