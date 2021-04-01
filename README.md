@@ -33,18 +33,25 @@ Below are some use cases for stalelettuce:
 ```
 # importing stalelettuce; aliasing as 'sl'
 import stalelettuce as sl
+
+
 # initializing Redshift class; assigning to 'rs' object
 rs = sl.Redshift(dbname="warehouse_prod")
+
 # use the schemas method as below to see schemas in 'warehouse_prod' database in a pandas dataframe
 rs.schemas()
+
 # use the tables method to see every schema-table pair in 'warehouse_prod' in a pandas dataframe
 rs.tables()
+
 # pass an optional schema name as an arg to the tables method to see the tables
 # associated with a specific schema instead of using pandas' loc method
 rs.tables(schema_name="llf_reporting")
+
 # use the columns method to see the column names, ordinal position, and data type of every
 # field in a specific table. just pass the schema and table names as args
 rs.columns(schema_name="llf_reporting", table_name="transaction_all")
+
 # use the query method to pass a query as an arg and return a pandas dataframe of the results
 sql = """select count(distinct ta.seller_id) num_sellers from llf_reporting.transaction_all ta"""
 rs.query(sql=sql)
