@@ -1,6 +1,5 @@
 #!/usr/bin/env python3.8
 
-from itertools import groupby
 from pandas import DataFrame, read_sql_query
 from sqlalchemy import create_engine, text
 import os
@@ -32,6 +31,23 @@ class Redshift(object):
     password (str): AWS password.
     """
 
+    schemas_query = """
+        select
+            t.table_schema,
+            count(distinct t.table_name) num_tables
+        from information_schema.tables t
+        group by 1
+        order by 1;
+    """
+
+    tables_query = """
+        select
+            t.table_schema,
+            t.table_name
+        from information_schema.tables t
+        order by 1, 2;
+    """
+
     def __init__(
         self,
         dbname,
@@ -46,8 +62,8 @@ class Redshift(object):
         self.port = port
         self.dbname = dbname
         self.engine = self.createEngine()
-        self.tables = self.dbTableNames()
-        self.schemas = {key: len(list(group)) for key, group in self.tables.items()}
+        self.schemas = self.query(sql=Redshift.schemas_query)
+        self.tables = self.query(sql=Redshift.tables_query)
 
     def createEngine(self):
         engine_string = \
@@ -55,23 +71,6 @@ class Redshift(object):
         engine = create_engine(engine_string)
         print(f"Successfully created engine via {engine_string}")
         return engine
-
-    def dbTableNames(self):
-        sql = """
-        select
-            schemaname,
-            tablename
-        from pg_tables
-        order by 1, 2
-        """
-        tables = {}
-        for dataset, table in self.engine.execute(sql):
-            try:
-                tables[dataset].append(table)
-            except KeyError:
-                tables[dataset] = [table]
-
-        return tables
 
     def query(self, sql):
         """
@@ -98,3 +97,33 @@ class Redshift(object):
         """
         df = read_sql_query(text(sql), self.engine)
         return df
+
+    def columns(self, schema_name, table_name):
+        """
+        -----------
+        DESCRIPTION:
+        -----------
+        Use this function to return the ordinal position, name, and data type
+        of every column in a specific table. You must pass the schema and table
+        names as args. If you are unsure what schema and tables exist, reference
+        the 'tables' and 'schemas' attributes of the Redshift instance.
+        -----------
+        ARGS:
+        -----------
+        schema_name (str): schema name.
+        table_name (str): table name.
+        """
+        sql = f"""
+            select
+                c.table_schema,
+                c.table_name,
+                c.ordinal_position as position,
+                c.column_name,
+                c.data_type
+            from information_schema.columns c
+            where
+                c.table_name = '{table_name}'
+                and c.table_schema = '{schema_name}'
+            order by 3;
+        """
+        return self.query(sql=sql)
