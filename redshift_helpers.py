@@ -11,10 +11,10 @@ class Redshift(object):
     -----------
     DESCRIPTION
     -----------
-    Use this class to explore a specific database in a Redshift cluster
-    associated with LeafLink. The sql engine, schema, and table name objects can
-    be accessed once the class has been initialized. These objects are named
-    'engine', 'schemas', and 'tables', respectively.
+    Use this class to explore a specific database in a Redshift cluster. The
+    sql engine, schema, and table name objects can be accessed once the class
+    has been initialized. These objects are named 'engine', 'schemas', and
+    'tables', respectively.
     -----------
     ARGS
     -----------
@@ -23,23 +23,6 @@ class Redshift(object):
     port (int): AWS cluster port number.
     username (str): AWS username.
     password (str): AWS password.
-    """
-
-    schemas_query = """
-        select
-            t.table_schema,
-            count(distinct t.table_name) num_tables
-        from information_schema.tables t
-        group by 1
-        order by 1;
-    """
-
-    tables_query = """
-        select
-            t.table_schema,
-            t.table_name
-        from information_schema.tables t
-        order by 1, 2;
     """
 
     def __init__(
@@ -56,8 +39,6 @@ class Redshift(object):
         self.port = port
         self.dbname = dbname
         self.engine = self.createEngine()
-        self.schemas = self.query(sql=Redshift.schemas_query)
-        self.tables = self.query(sql=Redshift.tables_query)
 
     def createEngine(self):
         engine_string = \
@@ -70,10 +51,9 @@ class Redshift(object):
         -----------
         DESCRIPTION:
         -----------
-        You can use this function to query Redshift.
-        The results are returned as a pandas dataframe for your convenience.
-        To use this function, just enter a valid query in a docstring.
-        Then, pass this docstring to the function as an arg (i.e. sql).
+        You can use this method to query Redshift. The results are returned as a
+        pandas dataframe. To use this method, just enter a valid query in a
+        docstring. Then, pass that docstring to the method as an arg.
         -----------
         ARGS:
         -----------
@@ -90,15 +70,52 @@ class Redshift(object):
         """
         return read_sql_query(text(sql), self.engine)
 
+    def schemas(self):
+        """
+        -----------
+        DESCRIPTION:
+        -----------
+        Use this method to return all schemas in the AWS database that you are
+        accessing, as well as the number of tables associated with those schemas,
+        in a pandas dataframe.
+        """
+        sql = """
+            select
+                t.table_schema,
+                count(distinct t.table_name) num_tables
+            from information_schema.tables t
+            group by 1
+            order by 1;
+        """
+        return self.query(sql=sql)
+
+    def tables(self):
+        """
+        -----------
+        DESCRIPTION:
+        -----------
+        Use this method to return all tables in the AWS database that you are
+        accessing, as well as the associated schema names, in a pandas dataframe.
+        """
+        sql = """
+            select
+                t.table_schema,
+                t.table_name
+            from information_schema.tables t
+            order by 1, 2;
+        """
+        return self.query(sql=sql)
+
     def columns(self, schema_name, table_name):
         """
         -----------
         DESCRIPTION:
         -----------
-        Use this function to return the ordinal position, name, and data type
+        Use this method to return the ordinal position, name, and data type
         of every column in a specific table. You must pass the schema and table
         names as args. If you are unsure what schema and tables exist, reference
-        the 'tables' and 'schemas' attributes of the Redshift instance.
+        the 'tables' and 'schemas' attributes of the Redshift instance. The returned
+        object is a pandas dataframe.
         -----------
         ARGS:
         -----------
