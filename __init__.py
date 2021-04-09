@@ -1,6 +1,7 @@
 #!/usr/bin/env python3.8
 
 from .redshift_helpers import options, Redshift  # noqa
+from .utils import HidePrint  # noqa
 
 
 options.display.max_columns = 100
