@@ -95,7 +95,13 @@ class Redshift(object):
         DESCRIPTION:
         -----------
         Use this method to return all tables in the AWS database that you are
-        accessing, as well as the associated schema names, in a pandas dataframe.
+        accessing, as well as the associated schema names, in a pandas dataframe. 
+        If schema_name is empty then the method returns the tables associated 
+        with every schema in the database. 
+        -----------
+        ARGS:
+        -----------
+        schema_name (str): schema name.
         """
         sql = """
             select
