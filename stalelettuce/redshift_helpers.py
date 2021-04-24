@@ -28,10 +28,10 @@ class Redshift(object):
     def __init__(
         self,
         dbname,
-        host=os.environ.get("REDSHIFT_ENDPOINT"),
-        port=os.environ.get("PORT"),
-        username=os.environ.get("REDSHIFT_USER"),
-        password=os.environ.get("REDSHIFT_PASSWORD")
+        host=os.environ.get("SLHOST"),
+        port=os.environ.get("SLPORT"),
+        username=os.environ.get("SLUSER"),
+        password=os.environ.get("SLPASSWORD")
     ):
         self.host = host
         self.username = username
@@ -95,9 +95,9 @@ class Redshift(object):
         DESCRIPTION:
         -----------
         Use this method to return all tables in the AWS database that you are
-        accessing, as well as the associated schema names, in a pandas dataframe. 
-        If schema_name is empty then the method returns the tables associated 
-        with every schema in the database. 
+        accessing, as well as the associated schema names, in a pandas dataframe.
+        If schema_name is empty then the method returns the tables associated
+        with every schema in the database.
         -----------
         ARGS:
         -----------

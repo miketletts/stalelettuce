@@ -10,7 +10,7 @@ stalelettuce is for exploring LeafLink's Redshift clusters from a Jupyter notebo
 To access Redshift with stalelettuce, you have two options when initializing the Redshift object:
 
 
-  1.) Enter the login credentials, endpoint, and port number manually as arguments that are passed to the Redshift object.</br>
+  1.) Enter the login credentials, host, and port number manually as arguments that are passed to the Redshift object.</br>
 
   2.) Store this information in environment variables on your machine locally.
 
@@ -21,10 +21,10 @@ Note: You'll need to provide the name of the database that you would like to acc
 If option number two above appeals to you then you will need to update .bashrc with the following information:
 
 
-`export REDSHIFT_ENDPOINT=<the AWS endpoint for the Redshift cluster>`</br>
-`export PORT=<the port number for the Redshift host>`</br>
-`export REDSHIFT_USER=<your Redshift username>`</br>
-`export REDSHIFT_PASS=<your Redshift password>`</br>
+`export SLHOST=<the AWS endpoint for the Redshift cluster>`</br>
+`export SLPORT=<the port number for the Redshift host>`</br>
+`export SLUSER=<your Redshift username>`</br>
+`export SLPASSWORD=<your Redshift password>`</br>
 
 
 Note: if you need to update your shell to bash, use the following command: `exec bash`. Similarly, you can use `source ~/.bashrc`. Additionally, you can update your shell preferences under "Shell opens with" by going to "Preferences" from the terminal menu. Lastly, to find the relevant AWS credentials, check 1password. To find the endpoint and port number, go to the AWS Console.

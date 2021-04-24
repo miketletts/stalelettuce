@@ -6,5 +6,3 @@ from .utils import HidePrint  # noqa
 
 options.display.max_columns = 100
 options.display.max_rows = 100
-
-__version__ = '0.1.0'
